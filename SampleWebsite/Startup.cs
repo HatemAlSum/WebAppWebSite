@@ -11,6 +11,7 @@ namespace SampleWebsite
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -44,6 +45,17 @@ namespace SampleWebsite
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        //Function to get random number
+        private static readonly Random getrandom = new Random();
+
+        public static int GetRandomNumber(int min, int max)
+        {
+            lock (getrandom) // synchronize
+            {
+                return getrandom.Next(min, max);
+            }
         }
     }
 }

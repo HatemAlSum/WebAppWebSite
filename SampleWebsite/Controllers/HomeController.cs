@@ -5,6 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SampleWebsite.Models;
+using System.IO;
+using System.Text;
+using ExcelDataReader;
 
 namespace SampleWebsite.Controllers
 {
@@ -32,6 +35,23 @@ namespace SampleWebsite.Controllers
                                                 ViewData["Color"],
                                                 System.Net.Dns.GetHostName());
 
+            return View();
+        }
+
+
+        public IActionResult ExcelReader()
+        {
+            string filePath = "test.xlsx";
+            using (var stream = System.IO.File.Open(filePath, FileMode.Open, FileAccess.Read))
+            {
+                using (IExcelDataReader reader = ExcelReaderFactory.CreateOpenXmlReader(stream))
+                {
+                    var results = reader.AsDataSet();
+                    results.Tables.Count.ToString();
+                    ViewData["excel"] = results.Tables[0].DefaultView.Table.Rows;
+                    ViewData.Model = results.Tables[0].DefaultView.Table.Rows;
+                }
+            }
             return View();
         }
 

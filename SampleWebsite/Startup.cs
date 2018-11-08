@@ -14,6 +14,9 @@ namespace SampleWebsite
 
         public Startup(IConfiguration configuration)
         {
+
+
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             Configuration = configuration;
         }
 
